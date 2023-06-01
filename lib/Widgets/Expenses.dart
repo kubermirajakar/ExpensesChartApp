@@ -17,12 +17,12 @@ class _Expenses extends State<Expenses> {
         title: 'flutter course',
         price: 10.22,
         date: DateTime.now(),
-        category: Category.food),
+        category: Categories.food),
     ExpensesModel(
         title: 'Java course',
         price: 19.22,
         date: DateTime.now(),
-        category: Category.other),
+        category: Categories.other),
   ];
 
   void _openAddModel() {

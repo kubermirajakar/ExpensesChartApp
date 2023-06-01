@@ -6,13 +6,13 @@ final uuid = Uuid();
 
 final formater = DateFormat.yMd();
 
-enum Category { travel, food, work, other }
+enum Categories { travel, food, work, other }
 
 final CategoryIcons = {
-  Category.travel: Icons.flight_takeoff,
-  Category.food: Icons.lunch_dining,
-  Category.work: Icons.work,
-  Category.other: Icons.devices_other
+  Categories.travel: Icons.flight_takeoff,
+  Categories.food: Icons.lunch_dining,
+  Categories.work: Icons.work,
+  Categories.other: Icons.devices_other
 };
 
 class ExpensesModel {
@@ -27,7 +27,7 @@ class ExpensesModel {
   final double price;
   final DateTime date;
   final String id;
-  final Category category;
+  final Categories category;
 
   String get getDateFormat {
     return formater.format(date);

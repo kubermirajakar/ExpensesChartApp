@@ -1,4 +1,5 @@
 import 'package:expensetracker/Model/ExpensesModel.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class AddExpenses extends StatefulWidget {
@@ -26,6 +27,8 @@ class _AddExpenses extends State<AddExpenses> {
   }
 
   DateTime? _date;
+  Categories _selectedCategories = Categories.other;
+
   void _openDataRange() async {
     final now = DateTime.now();
     final firstDate = DateTime(now.year - 5, now.month, now.day);
@@ -38,6 +41,31 @@ class _AddExpenses extends State<AddExpenses> {
     setState(() {
       _date = _selectedDate;
     });
+  }
+
+  void onSaving() {
+    final enterdAmount = double.tryParse(_addPrice.text);
+    final amountInavlid = enterdAmount == null || enterdAmount <= 0;
+
+    if (_addTitle.text.trim().isEmpty || amountInavlid || _date == null) {
+      showDialog(
+          context: context,
+          builder: (ctx) {
+            return AlertDialog(
+              title: Text('Wrong input'),
+              content: Text('Enter valid title, price and date'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(ctx);
+                  },
+                  child: Text('Okay'),
+                ),
+              ],
+            );
+          });
+      return;
+    }
   }
 
   @override
@@ -85,10 +113,29 @@ class _AddExpenses extends State<AddExpenses> {
             ],
           ),
           const SizedBox(
-            height: 15,
+            height: 20,
           ),
           Row(
             children: [
+              DropdownButton(
+                value: _selectedCategories,
+                items: Categories.values
+                    .map(
+                      (Category) => DropdownMenuItem(
+                        value: Category,
+                        child: Text(
+                          Category.name.toUpperCase(),
+                        ),
+                      ),
+                    )
+                    .toList(),
+                onChanged: (value) {
+                  setState(() {
+                    _selectedCategories = value as Categories;
+                  });
+                },
+              ),
+              Spacer(),
               TextButton(
                 onPressed: () {
                   Navigator.pop(context);
@@ -97,10 +144,7 @@ class _AddExpenses extends State<AddExpenses> {
               ),
               const SizedBox(width: 9),
               ElevatedButton(
-                onPressed: () {
-                  print(_addTitle.text);
-                  print(_addPrice.text);
-                },
+                onPressed: onSaving,
                 child: const Text('Save'),
               ),
             ],
