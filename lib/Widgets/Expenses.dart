@@ -1,4 +1,5 @@
 import 'package:expensetracker/Model/ExpensesModel.dart';
+import 'package:expensetracker/Widgets/AddExpenses.dart';
 import 'package:expensetracker/Widgets/Expenses_List.dart';
 import 'package:flutter/material.dart';
 
@@ -24,14 +25,22 @@ class _Expenses extends State<Expenses> {
         category: Category.other),
   ];
 
+  void _openAddModel() {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => AddExpenses(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: Text('Kuber Flutter Expense Tracker'),
         // backgroundColor: Color(0xff984b46),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: _openAddModel,
             icon: Icon(Icons.add),
           ),
         ],
