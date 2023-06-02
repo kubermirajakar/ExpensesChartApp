@@ -27,13 +27,50 @@ class _Expenses extends State<Expenses> {
 
   void _openAddModel() {
     showModalBottomSheet(
+      // isScrollControlled: true,
       context: context,
-      builder: (context) => AddExpenses(),
+      builder: (context) => AddExpenses(addExpense: addExpense),
+    );
+  }
+
+  void addExpense(ExpensesModel expensesModel) {
+    setState(() {
+      _registerdExpenses.add(expensesModel);
+    });
+  }
+
+  void romoveExpense(ExpensesModel expensesModel) {
+    final index = _registerdExpenses.indexOf(expensesModel);
+    setState(() {
+      _registerdExpenses.remove(expensesModel);
+    });
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        duration: Duration(seconds: 4),
+        content: Text('Expense Delected..'),
+        action: SnackBarAction(
+            label: 'Undo',
+            onPressed: () {
+              setState(() {
+                _registerdExpenses.insert(index, expensesModel);
+              });
+            }),
+      ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    Widget mainContent = Center(
+      child: Text('No expenses fond!!!, Try adding new items'),
+    );
+
+    if (_registerdExpenses.isNotEmpty) {
+      mainContent =
+          ExpensesList(expenses: _registerdExpenses, onDelete: romoveExpense);
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Kuber Flutter Expense Tracker'),
@@ -46,12 +83,7 @@ class _Expenses extends State<Expenses> {
         ],
       ),
       body: Column(
-        children: [
-          Text('Chart'),
-          Expanded(
-            child: ExpensesList(expenses: _registerdExpenses),
-          )
-        ],
+        children: [Text('Chart'), Expanded(child: mainContent)],
       ),
     );
   }
