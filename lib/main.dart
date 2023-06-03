@@ -25,12 +25,12 @@ void main() {
           style: ElevatedButton.styleFrom(
               backgroundColor: kColorDark.primaryContainer),
         ),
-        textTheme: ThemeData().textTheme.copyWith(
-              titleLarge: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: kColorDark.onSecondaryContainer,
-                  fontSize: 15),
-            ),
+        // textTheme: ThemeData().textTheme.copyWith(
+        //       titleLarge: TextStyle(
+        //           fontWeight: FontWeight.bold,
+        //           color: kColorDark.onSecondaryContainer,
+        //           fontSize: 15),
+        //     ),
       ),
       // theme: ThemeData(useMaterial3: true),
       theme: ThemeData().copyWith(

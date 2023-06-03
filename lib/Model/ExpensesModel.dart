@@ -1,3 +1,4 @@
+import 'package:expensetracker/Widgets/Expenses.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
@@ -31,5 +32,27 @@ class ExpensesModel {
 
   String get getDateFormat {
     return formater.format(date);
+  }
+}
+
+class ExpenseBucket {
+  const ExpenseBucket({required this.category, required this.expenses});
+
+  final Categories category;
+  final List<ExpensesModel> expenses;
+
+  ExpenseBucket.forCategory(List<ExpensesModel> allExpenses, this.category)
+      : expenses = allExpenses
+            .where((expense) => expense.category == category)
+            .toList();
+
+  double get totalExpense {
+    double sum = 0;
+
+    for (final expense in expenses) {
+      sum += expense.price;
+    }
+
+    return sum;
   }
 }
