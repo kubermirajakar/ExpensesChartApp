@@ -3,11 +3,17 @@ import 'package:expensetracker/Widgets/ExpensesItem.dart';
 import 'package:flutter/material.dart';
 
 class ExpensesList extends StatelessWidget {
-  ExpensesList({super.key, required this.expenses, required this.onDelete});
+  ExpensesList({
+    super.key,
+    required this.expenses,
+    required this.onDelete,
+    required this.openAddModel,
+  });
 
   final List<ExpensesModel> expenses;
 
   final void Function(ExpensesModel expensesModel) onDelete;
+  final void Function() openAddModel;
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +24,7 @@ class ExpensesList extends StatelessWidget {
         key: ValueKey(expenses[index]),
         onDismissed: (direction) => onDelete(expenses[index]),
         child: ExpensesItem(
+          openAddModel: openAddModel,
           expenses[index],
         ),
       ),

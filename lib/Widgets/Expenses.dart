@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 
 class Expenses extends StatefulWidget {
   const Expenses({super.key});
+
   @override
   State<Expenses> createState() {
     return _Expenses();
@@ -64,12 +65,36 @@ class _Expenses extends State<Expenses> {
   @override
   Widget build(BuildContext context) {
     Widget mainContent = Center(
-      child: Text('No expenses fond!!!, Try adding new items'),
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              Icons.hourglass_empty_outlined,
+              size: 40,
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            Text(
+              'No expenses found!!!, Try adding new items',
+              style: TextStyle(
+                color: Colors.red,
+                fontSize: 15,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
 
     if (_registerdExpenses.isNotEmpty) {
-      mainContent =
-          ExpensesList(expenses: _registerdExpenses, onDelete: romoveExpense);
+      mainContent = ExpensesList(
+        expenses: _registerdExpenses,
+        onDelete: romoveExpense,
+        openAddModel: _openAddModel,
+      );
     }
 
     return Scaffold(
