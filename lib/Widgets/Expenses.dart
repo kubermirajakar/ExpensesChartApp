@@ -29,6 +29,7 @@ class _Expenses extends State<Expenses> {
 
   void _openAddModel() {
     showModalBottomSheet(
+      useSafeArea: true,
       // isScrollControlled: true,
       context: context,
       builder: (context) => AddExpenses(addExpense: addExpense),
@@ -64,6 +65,9 @@ class _Expenses extends State<Expenses> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    print(width);
+
     Widget mainContent = Center(
       child: Center(
         child: Column(
@@ -98,22 +102,30 @@ class _Expenses extends State<Expenses> {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Kuber Flutter Expense Tracker'),
-        // backgroundColor: Color(0xff984b46),
-        actions: [
-          IconButton(
-            onPressed: _openAddModel,
-            icon: Icon(Icons.add),
-          ),
-        ],
-      ),
-      body: Column(
-        children: [
-          Chart(expenses: _registerdExpenses),
-          Expanded(child: mainContent),
-        ],
-      ),
-    );
+        appBar: AppBar(
+          title: Text('Kuber Flutter Expense Tracker'),
+          // backgroundColor: Color(0xff984b46),
+          actions: [
+            IconButton(
+              onPressed: _openAddModel,
+              icon: Icon(Icons.add),
+            ),
+          ],
+        ),
+        body: width < 550
+            ? Column(
+                children: [
+                  Chart(expenses: _registerdExpenses),
+                  Expanded(child: mainContent),
+                ],
+              )
+            : Row(
+                children: [
+                  Expanded(
+                    child: Chart(expenses: _registerdExpenses),
+                  ),
+                  Expanded(child: mainContent),
+                ],
+              ));
   }
 }

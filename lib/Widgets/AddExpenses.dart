@@ -83,86 +83,95 @@ class _AddExpenses extends State<AddExpenses> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        children: [
-          TextField(
-            // onChanged: _addTitle,
-            controller: _addTitle,
-            maxLength: 50,
-            decoration: InputDecoration(
-              label: const Text('Title'),
-            ),
-          ),
-          Row(
+    final space = MediaQuery.of(context).viewInsets.bottom;
+
+    return SizedBox(
+      height: double.infinity,
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(16, 48, 16, space + 16),
+          child: Column(
             children: [
-              Expanded(
-                child: TextField(
-                  // onChanged: _addTitle,
-                  controller: _addPrice,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    prefixText: '\$ ',
-                    label: const Text('Price'),
-                  ),
+              TextField(
+                // onChanged: _addTitle,
+                controller: _addTitle,
+                maxLength: 50,
+                decoration: InputDecoration(
+                  label: const Text('Title'),
                 ),
               ),
-              const SizedBox(
-                width: 16,
-              ),
-              Expanded(
-                  child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.center,
+              Row(
                 children: [
-                  Text(_date == null ? 'Select Date' : formater.format(_date!)),
-                  IconButton(
-                    onPressed: _openDataRange,
-                    icon: Icon(Icons.date_range),
+                  Expanded(
+                    child: TextField(
+                      // onChanged: _addTitle,
+                      controller: _addPrice,
+                      keyboardType: TextInputType.number,
+                      decoration: InputDecoration(
+                        prefixText: '\$ ',
+                        label: const Text('Price'),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 16,
+                  ),
+                  Expanded(
+                      child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(_date == null
+                          ? 'Select Date'
+                          : formater.format(_date!)),
+                      IconButton(
+                        onPressed: _openDataRange,
+                        icon: Icon(Icons.date_range),
+                      ),
+                    ],
+                  ))
+                ],
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Row(
+                children: [
+                  DropdownButton(
+                    value: _selectedCategories,
+                    items: Categories.values
+                        .map(
+                          (Category) => DropdownMenuItem(
+                            value: Category,
+                            child: Text(
+                              Category.name.toUpperCase(),
+                            ),
+                          ),
+                        )
+                        .toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        _selectedCategories = value as Categories;
+                      });
+                    },
+                  ),
+                  Spacer(),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: const Text('Cancel'),
+                  ),
+                  const SizedBox(width: 9),
+                  ElevatedButton(
+                    onPressed: onSaving,
+                    child: const Text('Save'),
                   ),
                 ],
-              ))
+              )
             ],
           ),
-          const SizedBox(
-            height: 20,
-          ),
-          Row(
-            children: [
-              DropdownButton(
-                value: _selectedCategories,
-                items: Categories.values
-                    .map(
-                      (Category) => DropdownMenuItem(
-                        value: Category,
-                        child: Text(
-                          Category.name.toUpperCase(),
-                        ),
-                      ),
-                    )
-                    .toList(),
-                onChanged: (value) {
-                  setState(() {
-                    _selectedCategories = value as Categories;
-                  });
-                },
-              ),
-              Spacer(),
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const Text('Cancel'),
-              ),
-              const SizedBox(width: 9),
-              ElevatedButton(
-                onPressed: onSaving,
-                child: const Text('Save'),
-              ),
-            ],
-          )
-        ],
+        ),
       ),
     );
   }
